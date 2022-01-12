@@ -1,5 +1,5 @@
 <?php
-include_once "./garbageCollectionClass.php";
+include_once __DIR__."/../garbageCollectionClass.php";
 class Database {
     public function __construct(){
         $this->pdo = new PDO('mysql:host=localhost;dbname=garbage', 'root', 'toor');
