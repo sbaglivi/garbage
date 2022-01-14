@@ -16,6 +16,9 @@ $request_method = $_SERVER["REQUEST_METHOD"];
 $request_path = parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH);
 $router = new Router();
 $router->get("/", "models/posts.php");
+$router->get("/add", "models/add.php");
+$router->post("/add", "models/post.php");
+$router->delete("/delete", "models/delete.php");
 // using a public method to instance the class and then return it, then you can chain non static methods on it. public static function | new static (or self); from within static function;
 require $router->render($request_path, $request_method);
 // switch($request){
