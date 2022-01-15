@@ -5,6 +5,7 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="../public/assets/js/index.js" defer type="text/javascript"></script>
   <title>Document</title>
 </head>
 
@@ -29,7 +30,7 @@
       <?php endforeach; ?>
     </tbody>
   </table>
-  <form method="DELETE" action="/delete">
+  <form id="deleteForm" method="DELETE" action="/delete">
     <input type="number" min="1" name="id" required>
     <button>Delete</button>
   </form>
