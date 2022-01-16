@@ -1,5 +1,5 @@
 # Garbage
-![Website image](./public/assets/images/website-ss.jpg)
+![Website image](./views/assets/images/website-ss.jpg)
 PHP application that connects to a MySQL database to keep track of garbage pick-up times.
 
 It offers two paths to showcase how a simple client application would interact with the API provided. 
