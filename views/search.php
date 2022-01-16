@@ -6,9 +6,9 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
-  <script src="../public/assets/js/search.js" defer></script>
-  <link rel="stylesheet" href="../public/assets/css/main.css">
-  <link rel="stylesheet" href="../public/assets/css/search.css">
+  <script src="views/assets/js/search.js" defer></script>
+  <link rel="stylesheet" href="views/assets/css/main.css">
+  <link rel="stylesheet" href="views/assets/css/search.css">
 </head>
 
 <body>
