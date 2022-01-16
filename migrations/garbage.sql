@@ -29,7 +29,7 @@ CREATE TABLE `collectiontime` (
   `startTime` time NOT NULL,
   `endTime` time NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=44 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -38,7 +38,7 @@ CREATE TABLE `collectiontime` (
 
 LOCK TABLES `collectiontime` WRITE;
 /*!40000 ALTER TABLE `collectiontime` DISABLE KEYS */;
-INSERT INTO `collectiontime` VALUES (1,'Organic','Monday','07:00:00','09:00:00'),(2,'Organic','Thursday','19:00:00','21:00:00'),(3,'Plastic','Tuesday','07:00:00','09:00:00'),(4,'Paper','Wednesday','07:00:00','09:00:00');
+INSERT INTO `collectiontime` VALUES (1,'Organic','Monday','07:00:00','09:00:00'),(2,'Organic','Thursday','19:00:00','21:00:00'),(12,'Plastic','Tuesday','08:30:00','09:00:00'),(13,'Glass','Saturday','13:30:00','14:00:00'),(20,'Glass','Tuesday','08:30:00','09:00:00'),(35,'Paper','Sunday','18:00:00','19:00:00'),(37,'Plastic','Friday','16:30:00','17:00:00');
 /*!40000 ALTER TABLE `collectiontime` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -51,4 +51,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-01-12 12:21:03
+-- Dump completed on 2022-01-16 19:17:47
