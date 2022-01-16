@@ -23,7 +23,7 @@ class PagesController
   {
     $data = $this->db->fetchAll();
     http_response_code(200);
-    header("Content-type:application/json; charset=utf-8");
+    header("Content-type:application/json");
     echo (json_encode(["data" => $data]));
   }
   public function createPickup()
@@ -34,13 +34,13 @@ class PagesController
       echo (json_encode(["error" => "There's already a pickup identical to the one you tried to insert"]));
       return;
     }
-    http_response_code(200);
+    http_response_code(201);
   }
   public function deletePickup()
   {
     preg_match("/^\/api\/delete\/(\d+)$/", parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH), $results);
     if (count($results) !== 2) {
-      http_response_code(409);
+      http_response_code(400);
       echo (json_encode(["error" => "The request is not properly formatted. It should be /api/delete/:id"]));
       return;
     }
