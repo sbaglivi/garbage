@@ -3,27 +3,31 @@
 PHP application that connects to a MySQL database to keep track of garbage pick-up times.
 It offers two paths to showcase how a simple client application would interact with the API provided. The API offers all the CRUD functions (Create, Read, Update, Delete).
 
-The app is available at: https://start2impact-plantbased.web.app/
-
 ## Built with:
 The project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 It uses:
 - HTML & CSS
 - PHP
 - [Composer](https://getcomposer.org/) to autoload necessary classes
-
-Hosting provided by: [Firebase](https://firebase.google.com/)
+- [MySQL] (https://www.mysql.com/) as the database
 
 ## How to use:
-To try the application you can simply visit the [website](https://start2impact-plantbased.web.app/), search for the name of a dish or an ingredient and start browsing recipes!
+In order to use the application you need to have installed:
+- PHP
+- MySQL
+- Composer
+Now you have to:
+- Clone the project `git clone https://github.com/sbaglivi/garbage`
+- Import the database: from the MySQL cli move into the migrations folder and then run `mysql -u {username} -p garbage < garbage.sql`
+- update the helpers/config.php file to have the correct username / password credentials to connect to MySQL
+- set up composer with `composer install`
+- start the php web server with `php -S localhost:{desiredPortNumber}`
+- Visit localhost:{desiredPortNumber}
+You've reached the index page, from which you can create a new pick-up time, update an existing one, delete one or just browse through the full list. 
+There's another page (/search) that you can reach through the link in the top right and that will allow you to filter the current pick-up times by weekday, type or id.
 
-Clicking on a recipe card opens a new page with an ingredient list and an instruction list.
-
----
-To run the project locally you can: 
-- `git clone` the [repository](https://github.com/sbaglivi/plant-based)
-- `npm i` to install the node package dependencies
-- `npm start` to serve a development build on the default path (localhost:3000)
+Once the back-end is up and running you can create your own front-end application that uses the PHP API to serve the data through REST.
+Have fun!
 
 ## Created by:
 [Simone Baglivi](https:/github.com/sbaglivi)
