@@ -12,10 +12,11 @@ It uses:
 - [MySQL] (https://www.mysql.com/) as the database
 
 ## How to use:
-In order to use the application you need to have installed:
+In order to use the application you need:
 - PHP
 - MySQL
 - Composer
+
 Now you have to:
 - Clone the project `git clone https://github.com/sbaglivi/garbage`
 - Import the database: from the MySQL cli move into the migrations folder and then run `mysql -u {username} -p garbage < garbage.sql`
