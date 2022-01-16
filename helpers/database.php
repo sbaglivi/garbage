@@ -17,44 +17,30 @@ class Database
     }
     return $stmt->fetchAll(PDO::FETCH_CLASS, "Pickup");
   }
-  public function getCollectionTimesByWeekday($weekday)
-  {
-    $stmt = $this->pdo->prepare("SELECT * FROM collectiontime WHERE weekday = :weekday");
-    $stmt->bindParam(':weekday', $weekday);
-    $stmt->execute();
-    return $stmt->fetchAll(PDO::FETCH_CLASS, "Pickup");
-  }
   public function get($queryArray)
   {
-    // RIGHT NOW THE KEY NAME IS NOT SANITIZED OUTSIDE OF CHEKCING IF IN PRESET COLUMN VALUES
     try {
       if ($queryArray == []) {
         $stmt = $this->pdo->prepare("SELECT * FROM collectiontime");
+        $stmt->execute();
       } else {
         $queryString = "SELECT * FROM collectiontime WHERE";
-        foreach ($queryArray as $i => $query) {
-          $key = key($query);
+        $firstParam = true;
+        foreach (array_keys($queryArray) as $key) {
           if (!in_array($key, column_values)) {
             throw new Exception("Invalid column name $key");
           }
-          $value = current($query);
-          if ($i === 0) {
-            $queryString = $queryString . " $key = :$value";
+          if ($firstParam) {
+            $queryString = $queryString . " $key = ?";
+            $firstParam = false;
             continue;
           }
-          $queryString = $queryString . " AND $key = :$value";
+          $queryString = $queryString . " AND $key = ?";
         }
-        echo ("</br>$queryString</br>");
 
         $stmt = $this->pdo->prepare($queryString);
-        foreach ($queryArray as $i => $query) {
-          $key = key($query);
-          $value = current($query);
-          echo ("$key : $value</br>");
-          $stmt->bindParam(":$value", $value);
-        }
+        $stmt->execute(array_values($queryArray));
       }
-      $stmt->execute();
     } catch (Exception $e) {
       throw $e;
     }
@@ -62,12 +48,45 @@ class Database
   }
   public function insert($type, $weekday, $startTime, $endTime)
   {
-    $stmt = $this->pdo->prepare("INSERT INTO collectiontime (type, weekday, starttime, endtime) VALUES (:type, :weekday, :starttime, :endtime)");
-    $stmt->execute([":type" => $type, ":weekday" => $weekday, ":starttime" => $startTime, ":endtime" => $endTime]);
+
+    try {
+      $stmt = $this->pdo->prepare("SELECT * FROM collectiontime WHERE type = ? AND weekday = ? AND starttime = ? and endtime = ?");
+      $stmt->execute([$type, $weekday, $startTime, $endTime]);
+      if ($stmt->rowCount() > 0) return false;
+      $stmt = $this->pdo->prepare("INSERT INTO collectiontime (type, weekday, starttime, endtime) VALUES (:type, :weekday, :starttime, :endtime)");
+      $stmt->execute([":type" => $type, ":weekday" => $weekday, ":starttime" => $startTime, ":endtime" => $endTime]);
+      return true;
+    } catch (PDOException $e) {
+      throw $e;
+    }
   }
   public function delete($id)
   {
     $stmt = $this->pdo->prepare("DELETE FROM collectiontime WHERE id = :id");
     $stmt->execute([":id" => $id]);
+    return $stmt->rowCount();
+  }
+  public function update($id, $type, $startTime, $endTime, $weekday)
+  {
+    try {
+      $stmt = $this->pdo->prepare("SELECT * FROM collectiontime WHERE id = ?");
+      $stmt->execute([$id]);
+      if ($stmt->rowCount() === 0) {
+        return "No rows with id $id";
+      }
+      $stmt = $this->pdo->prepare("SELECT * FROM collectiontime WHERE id = ? AND type = ? AND starttime = ? AND endtime = ? AND weekday = ?");
+      $stmt->execute([$id, $type, $startTime, $endTime, $weekday]);
+      if ($stmt->rowCount() > 0) {
+        return "Element with id $id is already equal to the data provided";
+      }
+      $stmt = $this->pdo->prepare("UPDATE collectiontime SET type = ?, starttime = ?, endtime = ?, weekday = ? WHERE id = ?");
+      $stmt->execute([$type, $startTime, $endTime, $weekday, $id]);
+      if ($stmt->rowCount() === 1) {
+        return "";
+      }
+      return "Could not update";
+    } catch (PDOException $e) {
+      throw $e;
+    }
   }
 }

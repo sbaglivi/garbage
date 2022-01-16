@@ -1,0 +1,49 @@
+h2 {
+  text-decoration: underline;
+}
+
+button {
+  font-family: "Be Vietnam Pro";
+  padding: 6px;
+  display: block;
+  margin: 0 auto;
+  margin-top: 10px;
+  width: 200px;
+}
+select, select > option {
+  font-family: "Be Vietnam Pro";
+}
+.input-div {
+  display: inline-block;
+}
+#deleteForm > input {
+  font-family: "Be Vietnam Pro";
+  width: 4em;
+}
+.searchLink {
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  color: black;
+  padding: 6px;
+  text-decoration: none;
+  border: 1px solid black;
+}
+
+
+@media only screen and (max-width: 800px) {
+  .searchLink {
+    position: static;
+    align-self: flex-end;
+  }
+}
+@media only screen and (max-width: 600px) {
+  .input-div {
+    display: block;
+  } 
+  #deleteForm > * {
+    display: block;
+    margin: 0 auto;
+    margin-top: 10px;
+  }
+}

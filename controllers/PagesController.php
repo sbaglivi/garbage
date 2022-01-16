@@ -1,4 +1,5 @@
 <?php
+
 class PagesController
 {
   protected $db;
@@ -7,40 +8,76 @@ class PagesController
     require __DIR__ . "/../helpers/config.php";
     $this->db = new Database($dbconfig);
   }
-  public function showPickups()
+  // Views for the example application
+  public function showIndex()
   {
-    // db fetch all
-    $data = $this->db->fetchAll();
     require __DIR__ . "/../views/index.php";
+  }
+  public function showSearch()
+  {
+    require __DIR__ . "/../views/search.php";
+  }
+
+  // API Methods
+  public function getPickups()
+  {
+    $data = $this->db->fetchAll();
+    http_response_code(200);
+    header("Content-type:application/json; charset=utf-8");
+    echo (json_encode(["data" => $data]));
   }
   public function createPickup()
   {
-    // dump($_POST);
-    // db create pick up
-    $this->db->insert($_POST["type"], $_POST["weekday"], $_POST["startTime"], $_POST["endTime"]);
-    redirect("/");
-  }
-  public function showAddForm()
-  {
-    require __DIR__ . "/../views/add.php";
+    $result = $this->db->insert($_POST["type"], $_POST["weekday"], $_POST["startTime"], $_POST["endTime"]);
+    if (!$result) {
+      http_response_code(409);
+      echo (json_encode(["error" => "There's already a pickup identical to the one you tried to insert"]));
+      return;
+    }
+    http_response_code(200);
   }
   public function deletePickup()
   {
-    // I can't specify the form action in html if I want to keep it api like since I need it to contain the id from the input, I tried submitting it from javascript but it doesn't seem to do anything.
-    // db delete pick up
-    // http_response_code(201);
-    $request_fragments = explode("/", parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH));
-    $this->db->delete($request_fragments[2]);
-    echo (json_encode(["redirect" => "/"]));
+    preg_match("/^\/api\/delete\/(\d+)$/", parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH), $results);
+    if (count($results) !== 2) {
+      http_response_code(409);
+      echo (json_encode(["error" => "The request is not properly formatted. It should be /api/delete/:id"]));
+      return;
+    }
+    $id = $results[1];
+    $result = $this->db->delete($id);
+    if ($result === 0) {
+      http_response_code(409);
+      echo (json_encode(["error" => "There is no pickup with the id provided"]));
+    } else {
+      http_response_code(200);
+    }
   }
   public function updatePickup()
   {
-    // db update pick up
-    redirect("/");
+    parse_str(file_get_contents("php://input"), $data);
+    $errorMessage = $this->db->update($data["id"], $data["type"], $data["startTime"], $data["endTime"], $data["weekday"]);
+    if ($errorMessage === "") {
+      http_response_code(200);
+      return;
+    }
+    http_response_code(409);
+    echo (json_encode(["error" => $errorMessage]));
   }
   public function searchPickups()
   {
-    // db search pickups
-    require __DIR__ . "/../views/index.php";
+    $params = [];
+    $queryString = parse_url($_SERVER["REQUEST_URI"], PHP_URL_QUERY);
+
+    foreach (explode("&", $queryString) as $i => $query) {
+      [$queryName, $queryValue] = explode("=", $query);
+      if ($queryName === "") {
+        break;
+      }
+      $params[$queryName] = $queryValue;
+    }
+    $data = $this->db->get($params);
+    header("Content-type: application/json");
+    echo (json_encode(["data" => $data]));
   }
 }

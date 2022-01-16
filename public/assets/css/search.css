@@ -1,0 +1,38 @@
+
+select, select > option, input {
+  font-family: "Be Vietnam Pro";
+}
+input[type="number"] { 
+  width: 4em;
+}
+button {
+  padding: 6px;
+  font-family: "Be Vietnam Pro";
+  display: block;
+  width: 200px;
+  margin: 0 auto;
+  margin-top: 10px;
+}
+.input-div {
+  display: inline-block;
+}
+a {
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  color: black;
+  text-decoration: none;
+  border: 1px solid black;
+  padding: 6px;
+}
+h1 {
+  font-size: 1.5em;
+  text-decoration: underline;
+}
+
+@media only screen and (max-width: 600px) {
+  .input-div {
+    display: block;
+    margin-bottom: 10px;
+  } 
+}

@@ -1,17 +1,20 @@
 <?php
-
 $router = new Router();
+
+// Routes for an example application that interacts with the database through the API
+$router->get("/", "PagesController@showIndex");
+$router->get("/search", "PagesController@showSearch");
+
+// API ROUTES
 // Read
-$router->get("/", "PagesController@showPickups");
-$router->get("/pickups", "PagesController@showPickups");
+$router->get("/api", "PagesController@getPickups");
 // Search
-$router->get("/search", "PagesController@searchPickups");
+$router->get("/api/search", "PagesController@searchPickups");
 // Create
-$router->get("/pickups/add", "PagesController@showAddForm");
-$router->post("/pickups", "PagesController@createPickup");
+$router->post("/api/pickups", "PagesController@createPickup");
 // Update
-$router->put("/pickups", "PagesController@updatePickup");
+$router->put("/api/pickups", "PagesController@updatePickup");
 // Delete
-$router->delete("/delete", "PagesController@deletePickup");
-// using a public method to instance the class and then return it, then you can chain non static methods on it. public static function | new static (or self); from within static function;
+$router->delete("/api/delete", "PagesController@deletePickup");
+
 return $router;
